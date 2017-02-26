@@ -45,14 +45,14 @@
 }
 
 - (void)render {
-    glClearColor(0, 1.0, 0, 1.0);
+    glClearColor(1.0, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
     [_eaglContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 - (void)setupLayer
 {
-    _eaglLayer = [[CAEAGLLayer alloc]init];
+    _eaglLayer = (CAEAGLLayer*)self.layer;
     _eaglLayer.opaque = YES;
     // 设置描绘属性，在这里设置不维持渲染内容以及颜色格式为 RGBA8
     _eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],kEAGLDrawablePropertyRetainedBacking,kEAGLColorFormatRGBA8,kEAGLDrawablePropertyColorFormat, nil];
@@ -79,7 +79,7 @@
 - (void)setupRenderBuffer
 {
     glGenRenderbuffers(1, &_colorRenderBuffer);
-    glBindBuffer(GL_RENDERBUFFER, _colorRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, _colorRenderBuffer);
     [_eaglContext renderbufferStorage:GL_RENDERBUFFER fromDrawable:_eaglLayer];
     // 设置为当前 framebuffer
     glGenFramebuffers(1, &_frameBuffer);
